@@ -77,19 +77,23 @@ show(0);
    photographs, which is why it reads as displacement rather than as an
    effect laid over the top.
 
-   THE ARC. The page does not degrade evenly — it fails. A reader gets
-   roughly five minutes, during which bursts arrive at three declared
-   severities and the transmission drops to a slate every twenty
-   seconds or so. At the end of that window the slate comes up and does
-   not go down again. The site is unusable until it is reloaded, which
-   is the point: you were given five minutes of access to the record
-   and then it was withdrawn.
+   The interruption slate is deliberately NOT torn. It is the one
+   surface that stays whole — it only drifts, message and slug bar
+   together on the same gate weave, which is what a projected card
+   does. The tearing is what the transmission is doing; the slate is
+   what is put up in its place.
+
+   THE ARC. A reader gets roughly five minutes. Bursts arrive at four
+   declared severities and the transmission drops to a slate every
+   twenty seconds or so. At the end of that window the slate comes up
+   and does not go down again. The site is unusable until it is
+   reloaded, which is the point: you were given five minutes of access
+   to the record and then it was withdrawn.
 
    Two things keep that from being merely hostile:
 
-   - SIGNAL in the masthead turns the whole apparatus off, including
-     the lockout, and the choice persists across reloads. Anyone who
-     wants a stable page has one, permanently, in one click.
+   - SIGNAL in the masthead turns the whole apparatus off, lockout
+     included, and the choice persists across reloads.
    - prefers-reduced-motion defaults it off, so nobody is ambushed.
 ------------------------------------------------------------------- */
 (function () {
@@ -117,15 +121,16 @@ show(0);
   function ri(a, b) { return Math.round(rnd(a, b)); }
 
   /* ------------------------------------------------------------------
-     THE THREE SEVERITIES
+     THE FOUR SEVERITIES
 
      Declared rather than derived. A single continuous intensity dial
-     produces a lot of indistinguishable middle; three named tiers with
-     a gap between them give the page a vocabulary — a twitch, a fault,
-     and a collapse — and the reader learns to tell them apart.
+     produces a lot of indistinguishable middle; four named tiers with
+     gaps between them give the page a vocabulary — a twitch, a fault,
+     a collapse, and the end of it — and the reader learns to tell them
+     apart.
 
-     churn is what makes heavy read as scrambled rather than as one
-     frozen broken frame: the slabs are re-laid every few tens of
+     churn is what makes the top tiers read as scrambled rather than as
+     one frozen broken frame: the slabs are re-laid every few tens of
      milliseconds for the whole duration, so it boils.
   ------------------------------------------------------------------ */
   var TIERS = {
@@ -148,11 +153,11 @@ show(0);
       solid: 0.14, scale: 0.20, spin: 0
     },
     // Beyond heavy. Heavy is a page coming apart; this is a page that
-    // has stopped being a page. Slabs are stretched and rotated, a
-    // third of them drop out to flat colour with no image left in them
-    // at all, the base document itself is thrown off its axis, and the
-    // whole thing re-lays every couple of frames so nothing holds still
-    // long enough to be read.
+    // has stopped being one. Slabs are stretched and rotated, a third
+    // drop out to flat colour with no image left in them at all, the
+    // document itself is thrown off its axis, and the whole thing
+    // re-lays every couple of frames so nothing holds still long
+    // enough to be read.
     total: {
       n: [POOL, POOL], shift: [90, 620], band: [3, 46], dur: [1300, 3000],
       rgb: [22, 46], marks: [4, 11], blocks: 0.46,
@@ -162,8 +167,7 @@ show(0);
   };
 
   // Weighted, not uniform: a page that collapses as often as it twitches
-  // stops reading as damage and starts reading as a screensaver. Total
-  // is rare on purpose — it should feel like the thing finally going.
+  // stops reading as damage and starts reading as decoration.
   function roll() {
     var r = Math.random();
     return r < 0.46 ? 'light' : r < 0.76 ? 'medium'
@@ -217,7 +221,7 @@ show(0);
   }
 
   // ------------------------------------------------------------------
-  // laying the slabs — called once for light, repeatedly while churning
+  // laying the slabs — once for light, repeatedly while churning
   // ------------------------------------------------------------------
   function lay(t) {
     var n = ri(t.n[0], t.n[1]);
@@ -296,7 +300,8 @@ show(0);
       m.style.top = rnd(1, 97) + '%';
       m.style.left = rnd(0, 72) + '%';
       m.style.width = rnd(4, 46) + '%';
-      m.style.height = rnd(2, t === TIERS.heavy ? 18 : 8) + 'px';
+      m.style.height = rnd(2, t === TIERS.heavy || t === TIERS.total ?
+        18 : 8) + 'px';
       gl.appendChild(m);
     }
   }
@@ -338,7 +343,8 @@ show(0);
   //
   // Bracketed by bursts on both sides rather than faded in and out: a
   // transmission does not cut cleanly to a slate, it comes apart first
-  // and comes apart again on the way back.
+  // and comes apart again on the way back. While it is up, nothing
+  // tears — the slate holds still and drifts.
   // ------------------------------------------------------------------
   var slateBusy = false, slateOff = null;
 
@@ -368,6 +374,8 @@ show(0);
     clearTimeout(burstTimer);
     if (!running || dead) return;
     burstTimer = setTimeout(function () {
+      // nothing tears behind the slate: the page is not on screen and
+      // the work would be invisible
       if (!slateBusy) burst(roll());
       nextBurst();
     }, rnd(600, 4200));

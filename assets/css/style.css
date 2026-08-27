@@ -416,7 +416,7 @@ footer{padding:34px 0 60px}
 }
 
 @media (prefers-reduced-motion:reduce){
-  #slate .sl-weave, #slate .sl-grain, #slate .sl-hair,
+  #slate .sl-weave, #slate .sl-bar, #slate .sl-grain, #slate .sl-hair,
   #slate .sl-flick{animation:none}
 }
 
@@ -435,6 +435,7 @@ footer{padding:34px 0 60px}
 ------------------------------------------------------------------- */
 #slate .sl-bar{
   position:absolute; left:0; right:0; bottom:0;
+  animation:sl-weave .5s steps(1,end) infinite;
   height:6.2%; min-height:84px; z-index:6;
   background:#11100F;
   /* the marks are one group: 1.4% between them, as in the print

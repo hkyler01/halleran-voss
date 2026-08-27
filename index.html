@@ -25,7 +25,8 @@
       <i>a Civic Chemical company</i>
     </div>
     <div class="code">
-      EST. 1946<br>NYSE: HLV<br>CONTRACT 4471-B
+      EST. 1946<br>NYSE: HLV<br>CONTRACT 4471-B<br>
+      <button id="sig" type="button" aria-pressed="true">SIGNAL: DEGRADED</button>
     </div>
   </div>
   <hr class="thick">
@@ -157,6 +158,46 @@
   </div>
 </footer>
 </div>
+
+
+<!-- the tear layer: ghost slabs, scan, red faults. Never reachable. -->
+<div id="gl" aria-hidden="true"></div>
+
+<!-- The interruption. Black frame, white letters, film on top of both. -->
+<div id="slate" aria-hidden="true">
+  <div class="sl-frame">
+    <div class="sl-weave">
+      <p class="sl-line">We are experiencing<br>technical difficulties</p>
+    </div>
+    <div class="sl-grain"></div>
+    <div class="sl-grain sl-grain2"></div>
+    <div class="sl-hair" style="--x:22%"></div>
+    <div class="sl-hair sl-hair2" style="--x:71%"></div>
+    <div class="sl-vig"></div>
+    <div class="sl-flick"></div>
+  </div>
+</div>
+
+<!-- Channel separation. Isolating R, G and B and screening them back
+     together reconstructs the image exactly at dx=0, so the offsets are
+     the whole effect and there is nothing to undo when they return to
+     zero. dx is retuned per burst from glitch.js. -->
+<svg class="gl-defs" aria-hidden="true" focusable="false"
+     width="0" height="0"><defs>
+  <filter id="hv-rgb" x="-8%" y="-4%" width="116%" height="108%"
+          color-interpolation-filters="sRGB">
+    <feColorMatrix in="SourceGraphic" type="matrix" result="R"
+      values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0"/>
+    <feColorMatrix in="SourceGraphic" type="matrix" result="G"
+      values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0"/>
+    <feColorMatrix in="SourceGraphic" type="matrix" result="B"
+      values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0"/>
+    <feOffset id="hv-off-r" in="R" dx="0" dy="0" result="Ro"/>
+    <feOffset id="hv-off-b" in="B" dx="0" dy="0" result="Bo"/>
+    <feBlend in="Ro" in2="G" mode="screen" result="RG"/>
+    <feBlend in="RG" in2="Bo" mode="screen"/>
+  </filter>
+</defs></svg>
 
 <script src="assets/js/data.js"></script>
 <script src="assets/js/app.js"></script>

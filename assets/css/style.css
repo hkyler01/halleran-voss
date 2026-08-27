@@ -336,7 +336,7 @@ footer{padding:34px 0 60px}
 
 /* --- the letters --- */
 #slate .sl-weave{
-  position:absolute; inset:0;
+  position:absolute; inset:0 0 6.2% 0;
   display:flex; align-items:center; justify-content:center;
   animation:sl-weave .5s steps(1,end) infinite;
 }
@@ -383,7 +383,7 @@ footer{padding:34px 0 60px}
 
 /* --- hairs in the gate --- */
 #slate .sl-hair{
-  position:absolute; top:-6%; height:112%; width:1px; left:var(--x);
+  position:absolute; z-index:7; top:-6%; height:112%; width:1px; left:var(--x);
   background:linear-gradient(180deg,
     rgba(255,255,255,0) 0%, rgba(255,255,255,.42) 12%,
     rgba(255,255,255,.20) 55%, rgba(255,255,255,0) 100%);
@@ -406,7 +406,7 @@ footer{padding:34px 0 60px}
     rgba(0,0,0,.55) 100%);
 }
 #slate .sl-flick{
-  position:absolute; inset:0; background:#fff; mix-blend-mode:overlay;
+  position:absolute; inset:0; z-index:7; background:#fff; mix-blend-mode:overlay;
   animation:sl-flick .28s steps(1,end) infinite;
 }
 @keyframes sl-flick{
@@ -418,4 +418,59 @@ footer{padding:34px 0 60px}
 @media (prefers-reduced-motion:reduce){
   #slate .sl-weave, #slate .sl-grain, #slate .sl-hair,
   #slate .sl-flick{animation:none}
+}
+
+/* ------------------------------------------------------------------
+   THE SLUG BAR
+
+   Lifted straight off the photo ops, and measured the same way: the bar
+   is 6.2% of the frame, the marks are 74% of the bar, the house roundel
+   reversed and the Office's seal beside it, caption left, accord code
+   hard right. Same proportions, same order of precedence.
+
+   It sits ABOVE the grain and the vignette rather than under them —
+   a slug is printed onto the frame after the fact, so it does not
+   carry the emulsion of the picture it labels. Only the flicker and
+   the gate weave reach it, because those are the projector.
+------------------------------------------------------------------- */
+#slate .sl-bar{
+  position:absolute; left:0; right:0; bottom:0;
+  height:6.2%; min-height:84px; z-index:6;
+  background:#11100F;
+  /* the marks are one group: 1.4% between them, as in the print
+     version, then a wider gap before the notice so the reader sees
+     two marks and a sentence rather than three items in a row */
+  display:flex; align-items:center; gap:1.4%;
+  padding:0 2% 0 2%;
+}
+#slate .sl-mark, #slate .sl-seal{
+  height:74%; width:auto; display:block; flex:0 0 auto;
+}
+/* 1.04, straight off photoop2.furniture(): the Office's seal outranks
+   the house roundel, but only just. At 84% it read as a different
+   size class instead of a peer. */
+#slate .sl-seal{height:77%; margin-right:.9%}
+/* Both of these are set entirely in capitals, and a line box centred
+   by align-items:center reserves descender space that no capital ever
+   occupies — so mathematically centred type sits visibly high. The
+   nudge is that reserved space, halved. */
+#slate .sl-cap{
+  flex:1 1 auto; min-width:0;
+  color:#E4E0D6; font-family:var(--sans); font-weight:500;
+  font-size:clamp(9px,.95vw,16px); letter-spacing:.09em;
+  text-transform:uppercase; line-height:1.25;
+  overflow:hidden; transform:translateY(.085em);
+}
+#slate .sl-code{
+  flex:0 0 auto; color:#928C82;
+  font-family:var(--mono); font-size:clamp(8px,.84vw,13px);
+  letter-spacing:.10em; transform:translateY(.085em);
+}
+@media (max-width:560px){
+  #slate .sl-bar{height:auto; min-height:0; padding:11px 4%;
+    flex-wrap:wrap; gap:9px 12px; align-items:center}
+  #slate .sl-seal{margin-right:0}
+  #slate .sl-mark, #slate .sl-seal{height:26px}
+  #slate .sl-cap{flex:1 1 100%; order:3; font-size:9px; letter-spacing:.05em}
+  #slate .sl-weave{inset:0 0 84px 0}
 }
